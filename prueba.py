@@ -34,12 +34,12 @@ class EchoBot(ClientXMPP):
         self.send_presence('chat', 'hello my friends!')
         self.get_roster()
         
-
         #print("---------------")
         #print(event)
         # Most get_*/set_* methods from plugins use Iq stanzas, which
         # are sent asynchronously. You can almost always provide a
         # callback that will be executed when the reply is received.
+        # raise KeyboardInterrupt
 
     def message(self, msg):
         print("........................")
@@ -69,15 +69,76 @@ def registerNewUser(user, passw):
         return False       
 
 
+def login():
+    logging.basicConfig(level=logging.DEBUG,
+                                format='%(levelname)-8s %(message)s')
+
+    userName = input(
+                "Type username please:   ")
+    passWord = input("Type the password:    ")
+    xmpp = EchoBot(userName, passWord)
+    xmpp.connect()
+    xmpp.process(forever=True)
+    #return xmpp
+
+
+
 if __name__ == '__main__':
     # Ideally use optparse or argparse to get JID,
     # password, and log level.
 
-    registerNewUser("diana@alumchat.xyz", "123")
-
-    """logging.basicConfig(level=logging.DEBUG,
-                        format='%(levelname)-8s %(message)s')
-
-    xmpp = EchoBot('dele18607@alumchat.xyz', '123')
-    xmpp.connect()
-    xmpp.process()"""
+    # registerNewUser("diana@alumchat.xyz", "123")
+    cliente = None
+    opcion = "Z"
+    opcion = input("""
+                        A: Create account
+                        B: Log In
+                        C: Log Out
+                        D: Delete Account
+                        E: Show ALL users and info about them
+                        F: Add a user to my roster
+                        G: Show contacts details
+                        H: Send direct message
+                        I: Join Chat room
+                        J: Create Room
+                        k: Send room message
+                        L: Send File
+                        Q: Quit/Exit
+                        Please enter your choice: """)
+    # while opcion != "Q":
+    if (opcion == "A"):
+        print("You are going to create account")
+        userName = input(
+            "Type username please:   ")
+        passWord = input("Type the password:    ")
+        # print(userName)
+        # print(passWord)
+        ansRegister = registerNewUser(userName, passWord)
+        if (ansRegister):
+            print("User succesfully created")
+        else:
+            print("Fail!!!! Try again")
+    elif (opcion == "B"):
+        cliente = login()
+        #try:
+        #if cliente:
+        #    cliente.process()
+        #except KeyboardInterrupt:
+        """opcion = 
+        input(
+                        A: Create account
+                        B: Log In
+                        C: Log Out
+                        D: Delete Account
+                        E: Show ALL users and info about them
+                        F: Add a user to my roster
+                        G: Show contacts details
+                        H: Send direct message
+                        I: Join Chat room
+                        J: Create Room
+                        k: Send room message
+                        L: Send File
+                        Q: Quit/Exit
+                        Please enter your choice:)"""
+            
+            
