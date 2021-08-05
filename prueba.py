@@ -29,11 +29,31 @@ class EchoBot(ClientXMPP):
         # Here's how to access plugins once you've registered them:
         # self['xep_0030'].add_feature('echo_demo')
 
+    async def menu(self):
+        opcion = input("""
+                        A: Create account
+                        B: Log In
+                        C: Log Out
+                        D: Delete Account
+                        E: Show ALL users and info about them
+                        F: Add a user to my roster
+                        G: Show contacts details
+                        H: Send direct message
+                        I: Join Chat room
+                        J: Create Room
+                        k: Send room message
+                        L: Send File
+                        Q: Quit/Exit
+                        Please enter your choice: """)
+        return opcion
+
 
     async def session_start(self, event):
         self.send_presence('chat', 'hello my friends!')
         await self.get_roster()
         
+        trae = await self.menu()
+        print(trae)
         #print("---------------")
         #print(event)
         # Most get_*/set_* methods from plugins use Iq stanzas, which
