@@ -30,9 +30,9 @@ class EchoBot(ClientXMPP):
         # self['xep_0030'].add_feature('echo_demo')
 
 
-    def session_start(self, event):
+    async def session_start(self, event):
         self.send_presence('chat', 'hello my friends!')
-        self.get_roster()
+        await self.get_roster()
         
         #print("---------------")
         #print(event)
@@ -41,13 +41,13 @@ class EchoBot(ClientXMPP):
         # callback that will be executed when the reply is received.
         # raise KeyboardInterrupt
 
-    def message(self, msg):
+    async def message(self, msg):
         print("........................")
         print(msg["from"])
         if msg['type'] in ('chat', 'normal'):
             msg.reply("Thanks for sending\n%(body)s" % msg).send()
 
-    def wait_for_presences(self, pres):
+    async def wait_for_presences(self, pres):
         print("************")
         print(pres)
         self.received.add(pres['from'].bare)
