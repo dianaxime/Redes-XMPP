@@ -29,12 +29,12 @@ class EchoBot(ClientXMPP):
         # self.register_plugin('xep_0107') # User mood
         # Here's how to access plugins once you've registered them:
         # self['xep_0030'].add_feature('echo_demo')
+        self.schedule(name="menu", callback=menu, seconds=10, repeat=True)
 
     
     async def session_start(self, event):
         self.send_presence('chat', 'hello my friends!')
         await self.get_roster()
-        
         
         #print("---------------")
         #print(event)
@@ -42,6 +42,24 @@ class EchoBot(ClientXMPP):
         # are sent asynchronously. You can almost always provide a
         # callback that will be executed when the reply is received.
         # raise KeyboardInterrupt
+
+    async def menu(self):
+        opcion = input("""
+                        A: Create account
+                        B: Log In
+                        C: Log Out
+                        D: Delete Account
+                        E: Show ALL users and info about them
+                        F: Add a user to my roster
+                        G: Show contacts details
+                        H: Send direct message
+                        I: Join Chat room
+                        J: Create Room
+                        k: Send room message
+                        L: Send File
+                        Q: Quit/Exit
+                        Please enter your choice: """)
+        print(opcion)
 
     async def message(self, msg):
         print("........................")
@@ -129,37 +147,23 @@ if __name__ == '__main__':
                         L: Send File
                         Q: Quit/Exit
                         Please enter your choice: """)
-    while opcion != "Q":
-        if (opcion == "A"):
-            print("You are going to create account")
-            userName = input(
-                "Type username please:   ")
-            passWord = input("Type the password:    ")
-            # print(userName)
-            # print(passWord)
-            ansRegister = registerNewUser(userName, passWord)
-            if (ansRegister):
-                print("User succesfully created")
-            else:
-                print("Fail!!!! Try again")
-        elif (opcion == "B"):
-            cliente = login()
-        cliente.process(timeout=10)
-        opcion = input("""
-                        A: Create account
-                        B: Log In
-                        C: Log Out
-                        D: Delete Account
-                        E: Show ALL users and info about them
-                        F: Add a user to my roster
-                        G: Show contacts details
-                        H: Send direct message
-                        I: Join Chat room
-                        J: Create Room
-                        k: Send room message
-                        L: Send File
-                        Q: Quit/Exit
-                        Please enter your choice: """)  
+    #while opcion != "Q":
+    if (opcion == "A"):
+        print("You are going to create account")
+        userName = input(
+            "Type username please:   ")
+        passWord = input("Type the password:    ")
+        # print(userName)
+        # print(passWord)
+        ansRegister = registerNewUser(userName, passWord)
+        if (ansRegister):
+            print("User succesfully created")
+        else:
+            print("Fail!!!! Try again")
+    elif (opcion == "B"):
+        cliente = login()
+        cliente.process()
+        #cliente.process(timeout=10)
         # asyncio.run(cliente.process())
             #try:
             #if cliente:
