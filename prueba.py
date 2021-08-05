@@ -2,7 +2,7 @@ import sys
 import aiodns
 import asyncio
 import logging
-
+import xmpp
 from prueba_status import Presence
 
 from slixmpp import ClientXMPP
@@ -43,7 +43,7 @@ class EchoBot(ClientXMPP):
 
     def message(self, msg):
         print("........................")
-        print(msg)
+        print(msg["from"])
         if msg['type'] in ('chat', 'normal'):
             msg.reply("Thanks for sending\n%(body)s" % msg).send()
 
@@ -54,16 +54,30 @@ class EchoBot(ClientXMPP):
         if len(self.recieved)>=len(self.client_roster.keys()):
             self.presences_received.set()
         else:
-            self.presences_received.clear()       
+            self.presences_received.clear()
+
+def registerNewUser(user, passw):
+    usuario = user
+    password = passw
+    jid = xmpp.JID(usuario)
+    cli = xmpp.Client(jid.getDomain(), debug=[])
+    cli.connect()
+
+    if xmpp.features.register(cli, jid.getDomain(), {'username': jid.getNode(), 'password': password}):
+        return True
+    else:
+        return False       
 
 
 if __name__ == '__main__':
     # Ideally use optparse or argparse to get JID,
     # password, and log level.
 
-    logging.basicConfig(level=logging.DEBUG,
+    registerNewUser("diana@alumchat.xyz", "123")
+
+    """logging.basicConfig(level=logging.DEBUG,
                         format='%(levelname)-8s %(message)s')
 
-    xmpp = EchoBot('cas181202@alumchat.xyz', '123')
+    xmpp = EchoBot('dele18607@alumchat.xyz', '123')
     xmpp.connect()
-    xmpp.process()
+    xmpp.process()"""
