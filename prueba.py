@@ -4,6 +4,7 @@ import asyncio
 import logging
 import xmpp
 from prueba_status import Presence
+import _thread
 
 from slixmpp import ClientXMPP
 
@@ -29,31 +30,12 @@ class EchoBot(ClientXMPP):
         # Here's how to access plugins once you've registered them:
         # self['xep_0030'].add_feature('echo_demo')
 
-    async def menu(self):
-        opcion = input("""
-                        A: Create account
-                        B: Log In
-                        C: Log Out
-                        D: Delete Account
-                        E: Show ALL users and info about them
-                        F: Add a user to my roster
-                        G: Show contacts details
-                        H: Send direct message
-                        I: Join Chat room
-                        J: Create Room
-                        k: Send room message
-                        L: Send File
-                        Q: Quit/Exit
-                        Please enter your choice: """)
-        return opcion
-
-
+    
     async def session_start(self, event):
         self.send_presence('chat', 'hello my friends!')
         await self.get_roster()
         
-        trae = await self.menu()
-        print(trae)
+        
         #print("---------------")
         #print(event)
         # Most get_*/set_* methods from plugins use Iq stanzas, which
@@ -98,10 +80,32 @@ def login():
     passWord = input("Type the password:    ")
     xmpp = EchoBot(userName, passWord)
     xmpp.connect()
-    xmpp.process(forever=True)
-    #return xmpp
+    # xmpp.process(forever=True)
+    return xmpp
 
+def menu():
+    while True:
+        opcion = input("""
+                        A: Create account
+                        B: Log In
+                        C: Log Out
+                        D: Delete Account
+                        E: Show ALL users and info about them
+                        F: Add a user to my roster
+                        G: Show contacts details
+                        H: Send direct message
+                        I: Join Chat room
+                        J: Create Room
+                        k: Send room message
+                        L: Send File
+                        Q: Quit/Exit
+                        Please enter your choice: """)
+        print(opcion)
 
+"""async def main(cliente):
+    await asyncio.gather(menu(),
+    cliente.process())
+"""
 
 if __name__ == '__main__':
     # Ideally use optparse or argparse to get JID,
@@ -125,27 +129,23 @@ if __name__ == '__main__':
                         L: Send File
                         Q: Quit/Exit
                         Please enter your choice: """)
-    # while opcion != "Q":
-    if (opcion == "A"):
-        print("You are going to create account")
-        userName = input(
-            "Type username please:   ")
-        passWord = input("Type the password:    ")
-        # print(userName)
-        # print(passWord)
-        ansRegister = registerNewUser(userName, passWord)
-        if (ansRegister):
-            print("User succesfully created")
-        else:
-            print("Fail!!!! Try again")
-    elif (opcion == "B"):
-        cliente = login()
-        #try:
-        #if cliente:
-        #    cliente.process()
-        #except KeyboardInterrupt:
-        """opcion = 
-        input(
+    while opcion != "Q":
+        if (opcion == "A"):
+            print("You are going to create account")
+            userName = input(
+                "Type username please:   ")
+            passWord = input("Type the password:    ")
+            # print(userName)
+            # print(passWord)
+            ansRegister = registerNewUser(userName, passWord)
+            if (ansRegister):
+                print("User succesfully created")
+            else:
+                print("Fail!!!! Try again")
+        elif (opcion == "B"):
+            cliente = login()
+        cliente.process(timeout=10)
+        opcion = input("""
                         A: Create account
                         B: Log In
                         C: Log Out
@@ -159,6 +159,13 @@ if __name__ == '__main__':
                         k: Send room message
                         L: Send File
                         Q: Quit/Exit
-                        Please enter your choice:)"""
-            
+                        Please enter your choice: """)  
+        # asyncio.run(cliente.process())
+            #try:
+            #if cliente:
+            #    cliente.process()
+            #except KeyboardInterrupt:
+    #_thread.start_new_thread(menu)
+    #_thread.start_new_thread(cliente.process()) 
+      
             
