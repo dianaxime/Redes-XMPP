@@ -10,6 +10,7 @@ from argparse import ArgumentParser
 # Importar clientes utiles
 from mensaje import Client
 from registro import registro, eliminar
+from roster import Rosters, AddRoster
 
 if __name__ == '__main__':
     parser = ArgumentParser(description=Client.__doc__)
@@ -70,7 +71,7 @@ if __name__ == '__main__':
             4. Notificaciones
             5. Mis contactos
             6. Añadir contacto
-            7. Buscar perfil de un usuario
+            7. Mostrar perfil de un contacto
             8. Buscar todos los usuarios
             9. Envio/recepcion de archivos
             10. Salir
@@ -97,11 +98,31 @@ if __name__ == '__main__':
             if(opcion == "4"):
                 pass
             if(opcion == "5"):
-                pass
+                xmpp = Rosters(args.jid, args.password)
+                xmpp.register_plugin('xep_0030') # Service Discovery
+                xmpp.register_plugin('xep_0199') # XMPP Ping
+                xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
+                xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.connect()
+                xmpp.process(forever=False)
             if(opcion == "6"):
-                pass
+                contact = input("¿Quien quieres que sea tu amig@? ") 
+                xmpp = AddRoster(args.jid, args.password, contact)
+                xmpp.register_plugin('xep_0030') # Service Discovery
+                xmpp.register_plugin('xep_0199') # XMPP Ping
+                xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
+                xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.connect()
+                xmpp.process(forever=False)
             if(opcion == "7"):
-                pass
+                contact = input("¿A quien quieres stalkear hoy? ") 
+                xmpp = Rosters(args.jid, args.password, contact)
+                xmpp.register_plugin('xep_0030') # Service Discovery
+                xmpp.register_plugin('xep_0199') # XMPP Ping
+                xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
+                xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.connect()
+                xmpp.process(forever=False)
             if (opcion == "8"):
                 pass
             if(opcion == "9"):
