@@ -9,6 +9,7 @@ from argparse import ArgumentParser
 
 # Importar clientes utiles
 from mensaje import Client
+from registro import registro, eliminar
 
 if __name__ == '__main__':
     parser = ArgumentParser(description=Client.__doc__)
@@ -49,16 +50,11 @@ if __name__ == '__main__':
             args.password = getpass("Ingrese su contraseña: ")
 
     if opcion == "1":
-        xmpp = Register(args.jid, args.password)
-        xmpp.register_plugin('xep_0030') ### Service Discovery
-        xmpp.register_plugin('xep_0004') ### Data Forms
-        xmpp.register_plugin('xep_0066') ### Band Data
-        xmpp.register_plugin('xep_0077') ### Band Registration
-
-        xmpp.connect()
-        xmpp.process(forever=False)
-        print("¡Excelente! Ya tienes una cuenta en ALUMCHAT v.20.21 \n")
-        opcion = input("¿Deseas iniciar sesion? y/n: ")
+        if registro(args.jid, args.password):
+            print("¡Excelente! Ya tienes una cuenta en ALUMCHAT v.20.21 \n")
+            opcion = input("¿Deseas iniciar sesion? y/n: ")
+        else:
+            print("Un error inesperado ha ocurrido")
 
     if opcion == "2" or opcion.lower() == "y":
         corriendo = True
@@ -114,5 +110,9 @@ if __name__ == '__main__':
                 corriendo = False
                 print('\n ¡Hasta la proxima! \n')
             if(opcion == "11"):
-                xmpp = None
-                corriendo = False
+                if registro(args.jid, args.password):
+                    print("Tu cuenta en ALUMCHAT v.20.21 ha sido elimada permanentemente\n")
+                    xmpp = None
+                    corriendo = False
+                else:
+                    print("Un error inesperado ha ocurrido")
