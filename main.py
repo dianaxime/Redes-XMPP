@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 
 # Importar clientes utiles
 from mensaje import Client
-from registro import registro, eliminar
+from registro import registro, Eliminar
 from roster import Rosters, AddRoster
 
 if __name__ == '__main__':
@@ -131,9 +131,8 @@ if __name__ == '__main__':
                 corriendo = False
                 print('\n ¡Hasta la proxima! \n')
             if(opcion == "11"):
-                if registro(args.jid, args.password):
-                    print("Tu cuenta en ALUMCHAT v.20.21 ha sido elimada permanentemente\n")
-                    xmpp = None
-                    corriendo = False
-                else:
-                    print("Un error inesperado ha ocurrido")
+                xmpp = Eliminar(args.jid, args.password)
+                xmpp.connect()
+                xmpp.process(forever=False)
+                xmpp = None
+                corriendo = False
