@@ -18,13 +18,15 @@ def registro(usuario, password):
         return False
 
 class Eliminar(slixmpp.ClientXMPP):
-    def __init__(self, jid, password):
+    def __init__(self, jid, password, show, status):
         slixmpp.ClientXMPP.__init__(self, jid, password)
         self.user = jid
+        self.show = show
+        self.stat = status
         self.add_event_handler("session_start", self.start)
 
     def start(self, event):
-        self.send_presence()
+        self.send_presence(self.show, self.stat)
         self.get_roster()
         self.delete_account()
         

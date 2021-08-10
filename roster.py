@@ -8,17 +8,19 @@ from getpass import getpass
 from argparse import ArgumentParser
 
 class Rosters(slixmpp.ClientXMPP):
-    def __init__(self, jid, password, user=None, show=True, message=""):
+    def __init__(self, jid, password, show1, status, user=None, show=True, message=""):
         slixmpp.ClientXMPP.__init__(self, jid, password)
         self.add_event_handler("session_start", self.start)
         self.presences = threading.Event()
         self.contacts = []
         self.user = user
         self.show = show
+        self.show1 = show1
+        self.stat = status
         self.message = message
 
     async def start(self, event):
-        self.send_presence()
+        self.send_presence(self.show1, self.stat)
         await self.get_roster()
 
         my_contacts = []
@@ -101,16 +103,19 @@ class Rosters(slixmpp.ClientXMPP):
 
 
 class AddRoster(slixmpp.ClientXMPP):
-    def __init__(self, jid, password, to):
+    def __init__(self, jid, password, show, status, to=None):
         slixmpp.ClientXMPP.__init__(self, jid, password)
         self.add_event_handler("session_start", self.start)
         self.to = to
+        self.show = show
+        self.stat = status
 
     async def start(self, event):
-        self.send_presence()
+        self.send_presence(self.show, self.stat)
         await self.get_roster()
         try:
-            self.send_presence_subscription(pto = self.to) 
+            if self.to is not None:
+                self.send_presence_subscription(pto = self.to) 
         except IqTimeout:
             print("ERROR 500: El server no esta respondiendo") 
         self.disconnect()

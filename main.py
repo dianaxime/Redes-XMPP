@@ -26,6 +26,11 @@ if __name__ == '__main__':
                         help="JID to use")
     parser.add_argument("-p", "--password", dest="password",
                         help="password to use")
+
+    parser.add_argument("-s", "--show", dest="show",
+                        help="show to use")
+    parser.add_argument("-t", "--status", dest="status",
+                        help="status to use")
     parser.add_argument("-r", "--register", dest="register",
                         help="Is new user")
 
@@ -34,6 +39,13 @@ if __name__ == '__main__':
     # Setup logging.
     logging.basicConfig(level=args.loglevel,
                         format='%(levelname)-8s %(message)s')
+    
+    posible_status = {
+        "1": "chat",
+        "2": "away",
+        "3": "dnd",
+        "4": "xa",
+    }
 
     print("""
     *************************************************
@@ -49,6 +61,8 @@ if __name__ == '__main__':
             args.jid = input("Ingrese su nombre de usuario: ")
         if args.password is None:
             args.password = getpass("Ingrese su contraseña: ")
+        args.show = "1"
+        args.status = ""
 
     if opcion == "1":
         if registro(args.jid, args.password):
@@ -82,7 +96,7 @@ if __name__ == '__main__':
             if(opcion == "0"):
                 recipient = input("¿A quien le quieres escribir hoy? ") 
                 message = input("Mensaje... ")
-                xmpp = Client(args.jid, args.password, recipient, message)
+                xmpp = Client(args.jid, args.password, recipient, message, posible_status[args.show], args.status)
                 xmpp.register_plugin('xep_0030') # Service Discovery
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
@@ -94,11 +108,27 @@ if __name__ == '__main__':
             if(opcion == "2"):
                 pass
             if(opcion == "3"):
-                pass
+                print("""
+                1. Disponible
+                2. No disponible
+                3. No molestar
+                4. Ausente
+                """)
+                args.show = input("¿En que estado te encuentras? ")
+                stat = input("¿Deseas ingresar un estado personalizado? y/n: ")
+                if stat.lower() == "y":
+                    args.status = input("SUGERENCIA: Utiliza una frase divertida. \nEscribe aqui tu frase... ")
+                xmpp = AddRoster(args.jid, args.password, posible_status[args.show], args.status)
+                xmpp.register_plugin('xep_0030') # Service Discovery
+                xmpp.register_plugin('xep_0199') # XMPP Ping
+                xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
+                xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.connect()
+                xmpp.process(forever=False)
             if(opcion == "4"):
                 pass
             if(opcion == "5"):
-                xmpp = Rosters(args.jid, args.password)
+                xmpp = Rosters(args.jid, args.password, posible_status[args.show], args.status)
                 xmpp.register_plugin('xep_0030') # Service Discovery
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
@@ -107,7 +137,7 @@ if __name__ == '__main__':
                 xmpp.process(forever=False)
             if(opcion == "6"):
                 contact = input("¿Quien quieres que sea tu amig@? ") 
-                xmpp = AddRoster(args.jid, args.password, contact)
+                xmpp = AddRoster(args.jid, args.password, posible_status[args.show], args.status, contact)
                 xmpp.register_plugin('xep_0030') # Service Discovery
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
@@ -116,7 +146,7 @@ if __name__ == '__main__':
                 xmpp.process(forever=False)
             if(opcion == "7"):
                 contact = input("¿A quien quieres stalkear hoy? ") 
-                xmpp = Rosters(args.jid, args.password, contact)
+                xmpp = Rosters(args.jid, args.password, posible_status[args.show], args.status, contact)
                 xmpp.register_plugin('xep_0030') # Service Discovery
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
@@ -131,7 +161,7 @@ if __name__ == '__main__':
                 corriendo = False
                 print('\n ¡Hasta la proxima! \n')
             if(opcion == "11"):
-                xmpp = Eliminar(args.jid, args.password)
+                xmpp = Eliminar(args.jid, args.password, posible_status[args.show], args.status)
                 xmpp.connect()
                 xmpp.process(forever=False)
                 xmpp = None

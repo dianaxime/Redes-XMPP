@@ -2,21 +2,24 @@ import logging
 import threading
 import slixmpp
 import base64, time
+from slixmpp import stanza
 from slixmpp.exceptions import IqError, IqTimeout
 from slixmpp.xmlstream.stanzabase import ET, ElementBase 
 from getpass import getpass
 from argparse import ArgumentParser
 
 class Client(slixmpp.ClientXMPP):
-    def __init__(self, jid, password, recipient, message):
+    def __init__(self, jid, password, recipient, message, show, status):
         slixmpp.ClientXMPP.__init__(self, jid, password)
         self.recipient = recipient
         self.msg = message
+        self.show = show
+        self.stat = status
         self.add_event_handler("session_start", self.start)
         self.add_event_handler("message", self.message)
 
     async def start(self, event):
-        self.send_presence()
+        self.send_presence(self.show, self.stat)
         await self.get_roster()
         self.send_message(mto=self.recipient,
                           mbody=self.msg,
