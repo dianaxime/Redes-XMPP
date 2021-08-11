@@ -25,15 +25,28 @@ class Client(slixmpp.ClientXMPP):
                           mbody=self.msg,
                           mtype='chat')
 
-    def message(self, msg):
+    async def message(self, msg):
         if msg['type'] in ('chat'):
             sender = str(msg['from']).split("/")
             recipient = str(msg['to']).split("/")
             body = msg['body']
             print(str(sender[0]) + " >> " + str(recipient[0]) +  " >> " + str(body))
+            self.change_status(self.recipient, 'composing')
             message = input("Escribe <<volver>> si deseas regresar al menu \n Mensaje... ")
+            self.change_status(self.recipient, 'paused')
             if message == "volver":
+                self.change_status(self.recipient, 'gone')
                 self.disconnect()
             else:
                 self.send_message(mto=self.recipient,
                                 mbody=message, mtype='chat')
+
+    def change_status(self, to, status):
+        msg = self.make_message(
+            mto=to,
+            mfrom=self.boundjid.bare,
+            mtype='chat'
+        )
+
+        msg['chat_state'] = status
+        msg.send()

@@ -102,6 +102,7 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
                 xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
             if(opcion == "1"):
@@ -111,6 +112,7 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
                 xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
             if(opcion == "2"):
@@ -118,9 +120,11 @@ if __name__ == '__main__':
                 nick_name = input("¿Cual sobrenombre quieres para tu grupo? ")
                 if '@conference.alumchat.xyz' in room:
                     xmpp = ChatGroup(args.jid, args.password, room, nick_name)
-                    xmpp.register_plugin('xep_0030')
-                    xmpp.register_plugin('xep_0045')
-                    xmpp.register_plugin('xep_0199')
+                    xmpp.register_plugin('xep_0030') # Service Discovery
+                    xmpp.register_plugin('xep_0199') # XMPP Ping
+                    xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
+                    xmpp.register_plugin('xep_0096') # Jabber Search
+                    xmpp.register_plugin('xep_0085') # Chat State Notifications
                     xmpp.connect()
                     xmpp.process(forever=False)
             if(opcion == "3"):
@@ -139,6 +143,7 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
                 xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
             if(opcion == "4"):
@@ -149,6 +154,7 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
                 xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
             if(opcion == "6"):
@@ -158,6 +164,7 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
                 xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
             if(opcion == "7"):
@@ -167,6 +174,7 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0199') # XMPP Ping
                 xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
                 xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
             if (opcion == "8"):
