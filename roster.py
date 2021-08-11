@@ -75,23 +75,18 @@ class Rosters(slixmpp.ClientXMPP):
                     print("\nNO se han encontrado resultados para esa busqueda\n")
         else:
             for JID in self.contacts:
-                self.notification_(JID, self.message, 'active')
+                self.presenceRoster(JID[0], self.message)
 
         self.disconnect()
 
-    def notification_(self, to, body, my_type):
+    def presenceRoster(self, to, body):
 
         message = self.Message()
         message['to'] = to
         message['type'] = 'chat'
         message['body'] = body
 
-        if (my_type == 'active'):
-            fragmentStanza = ET.fromstring("<active xmlns='http://jabber.org/protocol/chatstates'/>")
-        elif (my_type == 'composing'):
-            fragmentStanza = ET.fromstring("<composing xmlns='http://jabber.org/protocol/chatstates'/>")
-        elif (my_type == 'inactive'):
-            fragmentStanza = ET.fromstring("<inactive xmlns='http://jabber.org/protocol/chatstates'/>")
+        fragmentStanza = ET.fromstring("<active xmlns='http://jabber.org/protocol/chatstates'/>")
         message.append(fragmentStanza)
 
         try:

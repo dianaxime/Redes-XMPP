@@ -80,7 +80,7 @@ if __name__ == '__main__':
                             ALUMCHAT v.20.21                
             *************************************************
             0. Mensajeria privada
-            1. Unirme a un grupo
+            1. Mensaje de presencia
             2. Mensajeria de grupo
             3. Modificar mi estado
             4. Notificaciones
@@ -105,7 +105,14 @@ if __name__ == '__main__':
                 xmpp.connect()
                 xmpp.process(forever=False)
             if(opcion == "1"):
-                pass
+                m_presencia = input("¿Que mensaje le quieres enviar a tus amig@s? ")
+                xmpp = Rosters(args.jid, args.password, posible_status[args.show], args.status, show=False, message=m_presencia)
+                xmpp.register_plugin('xep_0030') # Service Discovery
+                xmpp.register_plugin('xep_0199') # XMPP Ping
+                xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
+                xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.connect()
+                xmpp.process(forever=False)
             if(opcion == "2"):
                 room = input("¿A que room te quieres unir? ") 
                 nick_name = input("¿Cual sobrenombre quieres para tu grupo? ")

@@ -34,7 +34,7 @@ class ChatGroup(slixmpp.ClientXMPP):
 
     def muc_message(self, msg):
         if(str(msg['from']).split('/')[1] != self.nick):
-            print(str(msg['from']).split('/')[1] + ": " + msg['body'])
+            print(str(msg['from']).split('/')[1] + " >> " + msg['body'])
             message = input("Escribe <<volver>> si deseas regresar al menu \n Mensaje... ")
             if message == "volver":
                 self.disconnect()
