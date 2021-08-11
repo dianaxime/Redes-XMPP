@@ -107,19 +107,15 @@ if __name__ == '__main__':
             if(opcion == "1"):
                 pass
             if(opcion == "2"):
-                try:
-                    room = input("Write the room JID: ") 
-                    AK = input("Write your room name: ")
-                    if '@conference.alumchat.xyz' in room:
-                        xmpp = ChatGroup(args.jid, args.password, room, AK)
-                        xmpp.register_plugin('xep_0030')
-                        xmpp.register_plugin('xep_0045')
-                        xmpp.register_plugin('xep_0199')
-                        xmpp.connect()
-                        xmpp.process(forever=False)
-                except KeyboardInterrupt as e:
-                    print('\nNice chat, dont forget I read all of it haha\n')
-                    xmpp.disconnect()
+                room = input("¿A que room te quieres unir? ") 
+                nick_name = input("¿Cual sobrenombre quieres para tu grupo? ")
+                if '@conference.alumchat.xyz' in room:
+                    xmpp = ChatGroup(args.jid, args.password, room, nick_name)
+                    xmpp.register_plugin('xep_0030')
+                    xmpp.register_plugin('xep_0045')
+                    xmpp.register_plugin('xep_0199')
+                    xmpp.connect()
+                    xmpp.process(forever=False)
             if(opcion == "3"):
                 print("""
                 1. Disponible
