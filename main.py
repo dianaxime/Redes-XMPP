@@ -18,13 +18,6 @@ from file import File
 if __name__ == '__main__':
     parser = ArgumentParser(description=Client.__doc__)
 
-    parser.add_argument("-q", "--quiet", help="set logging to ERROR",
-                        action="store_const", dest="loglevel",
-                        const=logging.ERROR, default=logging.INFO)
-    parser.add_argument("-d", "--debug", help="set logging to DEBUG",
-                        action="store_const", dest="loglevel",
-                        const=logging.DEBUG, default=logging.INFO)
-
     parser.add_argument("-j", "--jid", dest="jid",
                         help="JID to use")
     parser.add_argument("-p", "--password", dest="password",
@@ -39,10 +32,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    # Setup logging.
-    logging.basicConfig(level=args.loglevel,
-                        format='%(levelname)-8s %(message)s')
-    
     posible_status = {
         "1": "chat",
         "2": "away",
@@ -205,6 +194,5 @@ if __name__ == '__main__':
                 xmpp.process(forever=False)
                 xmpp = None
                 corriendo = False
-                print("Tu cuenta ha sido eliminada exitosamente")
 
             

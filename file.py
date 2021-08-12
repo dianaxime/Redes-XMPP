@@ -40,12 +40,10 @@ class File(slixmpp.ClientXMPP):
         sender = str(msg['from']).split("/")
         recipient = str(msg['to']).split("/")
         body = msg['body']
-        if recipient[0] == self.my_user:
-            if len(body) > 3000:
-                print(str(sender[0]) + " >> Has recibido un archivo puedes verlo en tu carpeta")
-                received = body.encode('utf-8')
-                received = base64.decodebytes(received)
-                with open("recibido.png", "wb") as fh:
-                    fh.write(received)
-            else:
-                print(str(sender[0]) + " >> " + str(recipient[0]) +  " >> " + str(body))
+        if len(body) > 3000:
+            received = body.encode('utf-8')
+            received = base64.decodebytes(received)
+            with open("recibido.png", "wb") as fh:
+                fh.write(received)
+        else:
+            print(str(sender[0]) + " >> " + str(recipient[0]) +  " >> " + str(body))

@@ -18,6 +18,7 @@ class Rosters(slixmpp.ClientXMPP):
         self.show1 = show1
         self.stat = status
         self.message = message
+        self.my_user = jid
 
     async def start(self, event):
         self.send_presence(self.show1, self.stat)
@@ -59,12 +60,13 @@ class Rosters(slixmpp.ClientXMPP):
 
         if(self.show):
             if(not self.user):
-                if len(my_contacts) == 0:
+                if len(my_contacts) == 1:
                     print('NO tienes contactos. FOREVER ALONE')
                 else:
                     print('\nContactos:\n')
                     for contact in my_contacts:
-                        print('**** JID >> ' + str(contact[0])  + '\n**** Nombre de usuario >> ' + str(contact[2]) + '\n**** Estado >> ' + str(contact[1]) + '\n**** Disponibilidad >> ' + str(contact[3]) + "\n\n")
+                        if contact[0] != self.my_user:
+                            print('**** JID >> ' + str(contact[0])  + '\n**** Nombre de usuario >> ' + str(contact[2]) + '\n**** Estado >> ' + str(contact[1]) + '\n**** Disponibilidad >> ' + str(contact[3]) + "\n\n")
             else:
                 flag = True
                 for contact in my_contacts:
