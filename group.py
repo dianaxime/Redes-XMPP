@@ -24,13 +24,12 @@ class ChatGroup(slixmpp.ClientXMPP):
         await self.get_roster()
         self.send_presence()
         self.plugin['xep_0045'].join_muc(self.room,
-                                         self.nick,
+                                        self.nick,
                                         )
-
         message = input("Mensaje... ")
         self.send_message(mto=self.room,
-                          mbody=message,
-                          mtype='groupchat')
+                        mbody=message,
+                        mtype='groupchat')
 
     def muc_message(self, msg):
         if(str(msg['from']).split('/')[1] != self.nick):
@@ -49,3 +48,5 @@ class ChatGroup(slixmpp.ClientXMPP):
             self.send_message(mto=presence['from'].bare,
                               mbody="¡Hola amig@ %s!" % (presence['muc']['nick']),
                               mtype='groupchat')
+
+            

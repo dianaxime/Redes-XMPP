@@ -3,6 +3,7 @@ import threading
 import slixmpp
 import base64, time
 from slixmpp.exceptions import IqError, IqTimeout
+from slixmpp.util.stringprep_profiles import create
 from slixmpp.xmlstream.stanzabase import ET, ElementBase 
 from getpass import getpass
 from argparse import ArgumentParser
@@ -76,16 +77,6 @@ if __name__ == '__main__':
     if opcion == "2" or opcion.lower() == "y":
         corriendo = True
         while corriendo:
-            if (opcion != "8" and opcion != "9"):
-                xmpp = File(args.jid, args.password, posible_status[args.show], args.status)
-                xmpp.register_plugin('xep_0030') # Service Discovery
-                xmpp.register_plugin('xep_0199') # XMPP Ping
-                xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
-                xmpp.register_plugin('xep_0096') # Jabber Search
-                xmpp.register_plugin('xep_0085') # Chat State Notifications
-                xmpp.connect()
-                xmpp.process(timeout=25)
-                xmpp.disconnect()
             print("""
             *************************************************
                             ALUMCHAT v.20.21                
@@ -98,8 +89,9 @@ if __name__ == '__main__':
             5. Añadir contacto
             6. Mostrar perfil de un contacto
             7. Envio/recepcion de archivos
-            8. Salir
-            9. Borrar mi cuenta // CUIDADO //
+            8. Ponerme al dia
+            9. Salir
+            10. Borrar mi cuenta // CUIDADO //
             *************************************************
             """)
             opcion = input("Ingresa el ## de accion que deseas realizar: ") 
@@ -125,7 +117,7 @@ if __name__ == '__main__':
                 xmpp.connect()
                 xmpp.process(forever=False)
             if(opcion == "2"):
-                room = input("¿A que room te quieres unir? ") 
+                room = input("¿Cual es el nombre del room? ") 
                 nick_name = input("¿Cual sobrenombre quieres para tu grupo? ")
                 if '@conference.alumchat.xyz' in room:
                     xmpp = ChatGroup(args.jid, args.password, room, nick_name)
@@ -194,10 +186,20 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
-            if(opcion == "8"):
+            if (opcion == "8"):
+                xmpp = File(args.jid, args.password, posible_status[args.show], args.status)
+                xmpp.register_plugin('xep_0030') # Service Discovery
+                xmpp.register_plugin('xep_0199') # XMPP Ping
+                xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
+                xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.register_plugin('xep_0085') # Chat State Notifications
+                xmpp.connect()
+                xmpp.process(timeout=25)
+                xmpp.disconnect()
+            if(opcion == "9"):
                 corriendo = False
                 print('\n ¡Hasta la proxima! \n')
-            if(opcion == "9"):
+            if(opcion == "10"):
                 xmpp = Eliminar(args.jid, args.password, posible_status[args.show], args.status)
                 xmpp.connect()
                 xmpp.process(forever=False)

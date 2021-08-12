@@ -33,6 +33,7 @@ class File(slixmpp.ClientXMPP):
             message = base64.b64encode(img_file.read()).decode('utf-8')
         
         self.send_message(mto=self.recipient, mbody=message, mtype="chat")
+        print("¡Archivo enviado exitosamente!")
         self.disconnect()
 
     def receive(self, msg):

@@ -64,12 +64,12 @@ class Rosters(slixmpp.ClientXMPP):
                 else:
                     print('\nContactos:\n')
                     for contact in my_contacts:
-                        print('**** JID:' + str(contact[0])  + '\n**** Nombre de usuario:' + str(contact[2]) + '\n**** Estado:' + str(contact[1]) + '\n**** Disponibilidad:' + str(contact[3]))
+                        print('**** JID >> ' + str(contact[0])  + '\n**** Nombre de usuario >> ' + str(contact[2]) + '\n**** Estado >> ' + str(contact[1]) + '\n**** Disponibilidad >> ' + str(contact[3]) + "\n\n")
             else:
                 flag = True
                 for contact in my_contacts:
                     if(contact[0] == self.user):
-                        print('**** JID:' + str(contact[0]) + '\n**** Nombre de usuario:' + str(contact[2]) + '\n**** Estado:' + str(contact[1]) + '\n**** Disponibilidad:' + str(contact[3]))
+                        print('**** JID >> ' + str(contact[0]) + '\n**** Nombre de usuario >> ' + str(contact[2]) + '\n**** Estado >> ' + str(contact[1]) + '\n**** Disponibilidad >> ' + str(contact[3]) + "\n\n")
                         flag = False
                 if flag:
                     print("\nNO se han encontrado resultados para esa busqueda\n")
