@@ -1,3 +1,8 @@
+# CC-3067 Redes
+# Proyecto de Cliente XMPP
+# Diana Ximena de Leon Figueroa
+# Carne 18607
+
 import logging
 import threading
 import slixmpp
@@ -23,6 +28,9 @@ class ChatGroup(slixmpp.ClientXMPP):
     async def start(self, event):
         await self.get_roster()
         self.send_presence()
+
+    # Unirnos a un grupo
+    
         self.plugin['xep_0045'].join_muc(self.room,
                                         self.nick,
                                         )
@@ -30,6 +38,8 @@ class ChatGroup(slixmpp.ClientXMPP):
         self.send_message(mto=self.room,
                         mbody=message,
                         mtype='groupchat')
+
+    # Funcion para envio y recepcion de mensajes en rooms
 
     def muc_message(self, msg):
         if(str(msg['from']).split('/')[1] != self.nick):
@@ -42,6 +52,8 @@ class ChatGroup(slixmpp.ClientXMPP):
                 self.send_message(mto=msg['from'].bare,
                                 mbody=message,
                                 mtype='groupchat')
+
+    # Funcion para enviar mensaje de presencia en un room
 
     def muc_online(self, presence):
         if presence['muc']['nick'] != self.nick:

@@ -1,3 +1,8 @@
+# CC-3067 Redes
+# Proyecto de Cliente XMPP
+# Diana Ximena de Leon Figueroa
+# Carne 18607
+
 import logging
 import threading
 import slixmpp
@@ -25,6 +30,7 @@ class File(slixmpp.ClientXMPP):
         if self.file:
             self.send_file()
         
+    # Funcion de envio de archivos
 
     def send_file(self):
         filename = input("¿Que archivo deseas mandar? ")
@@ -35,6 +41,8 @@ class File(slixmpp.ClientXMPP):
         self.send_message(mto=self.recipient, mbody=message, mtype="chat")
         print("¡Archivo enviado exitosamente!")
         self.disconnect()
+
+    # Funcion para recepcion de archivos
 
     def receive(self, msg):
         sender = str(msg['from']).split("/")

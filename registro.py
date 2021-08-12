@@ -1,3 +1,8 @@
+# CC-3067 Redes
+# Proyecto de Cliente XMPP
+# Diana Ximena de Leon Figueroa
+# Carne 18607
+
 import xmpp
 import logging
 import threading
@@ -8,6 +13,8 @@ from slixmpp.xmlstream.stanzabase import ET, ElementBase
 from getpass import getpass
 from argparse import ArgumentParser
 
+# funcion para registrar usuarios
+
 def registro(usuario, password):
     jid = xmpp.JID(usuario)
     cli = xmpp.Client(jid.getDomain(), debug=[])
@@ -16,6 +23,9 @@ def registro(usuario, password):
         return True
     else:
         return False
+
+
+# Clase para eliminacion de un usuario
 
 class Eliminar(slixmpp.ClientXMPP):
     def __init__(self, jid, password, show, status):

@@ -1,3 +1,8 @@
+# CC-3067 Redes
+# Proyecto de Cliente XMPP
+# Diana Ximena de Leon Figueroa
+# Carne 18607
+
 import logging
 import threading
 import slixmpp
@@ -34,6 +39,8 @@ class Rosters(slixmpp.ClientXMPP):
         
         self.presences.wait(3)
 
+        # Traer a mis contactos 
+        
         my_roster = self.client_roster.groups()
         for group in my_roster:
             for user in my_roster[group]:
@@ -59,6 +66,8 @@ class Rosters(slixmpp.ClientXMPP):
                 self.contacts = my_contacts
 
         if(self.show):
+            # Mostrar todos mis usuarios
+
             if(not self.user):
                 if len(my_contacts) == 1:
                     print('NO tienes contactos. FOREVER ALONE')
@@ -68,6 +77,8 @@ class Rosters(slixmpp.ClientXMPP):
                         if contact[0] != self.my_user:
                             print('**** JID >> ' + str(contact[0])  + '\n**** Nombre de usuario >> ' + str(contact[2]) + '\n**** Estado >> ' + str(contact[1]) + '\n**** Disponibilidad >> ' + str(contact[3]) + "\n\n")
             else:
+                # Mostrar un usuario especifico
+
                 flag = True
                 for contact in my_contacts:
                     if(contact[0] == self.user):
@@ -81,8 +92,9 @@ class Rosters(slixmpp.ClientXMPP):
 
         self.disconnect()
 
-    def presenceRoster(self, to, body):
+    # Enviar mensaje de presencia a mis amigos
 
+    def presenceRoster(self, to, body):
         message = self.Message()
         message['to'] = to
         message['type'] = 'chat'
@@ -110,6 +122,9 @@ class AddRoster(slixmpp.ClientXMPP):
     async def start(self, event):
         self.send_presence(self.show, self.stat)
         await self.get_roster()
+
+        # Agregar contactos 
+        
         try:
             if self.to is not None:
                 self.send_presence_subscription(pto = self.to) 

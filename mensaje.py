@@ -1,3 +1,8 @@
+# CC-3067 Redes
+# Proyecto de Cliente XMPP
+# Diana Ximena de Leon Figueroa
+# Carne 18607
+
 import logging
 import threading
 import slixmpp
@@ -7,6 +12,8 @@ from slixmpp.exceptions import IqError, IqTimeout
 from slixmpp.xmlstream.stanzabase import ET, ElementBase 
 from getpass import getpass
 from argparse import ArgumentParser
+
+# Clase de mensajeria privada
 
 class Client(slixmpp.ClientXMPP):
     def __init__(self, jid, password, recipient, message, show, status):
@@ -30,6 +37,8 @@ class Client(slixmpp.ClientXMPP):
                           mbody=self.msg,
                           mtype='chat')
 
+    # Funcion para envio y recepcion de mensajes 
+
     async def message(self, msg):
         if msg['type'] in ('chat'):
             sender = str(msg['from']).split("/")
@@ -46,6 +55,8 @@ class Client(slixmpp.ClientXMPP):
                 self.send_message(mto=self.recipient,
                                 mbody=message, mtype='chat')
 
+    # Funcion para envio de notificaciones del chat
+
     def change_status(self, to, status):
         msg = self.make_message(
             mto=to,
@@ -55,21 +66,27 @@ class Client(slixmpp.ClientXMPP):
         msg['chat_state'] = status
         msg.send()
 
+    # Funcion de notificaciones de usuarios activos
+
     def status_active(self, chatstate):
         print(str(chatstate['from']).split("/")[0] + " esta activo.")
 
+    # Funcion de notificaciones de usuarios inactivos
 
     def status_inactive(self, chatstate):
         print(str(chatstate['from']).split("/")[0] + " esta inactivo.")
 
+    # Funcion de notificaciones de usuarios que estan escribiendo en el chat
 
     def status_composing(self, chatstate):
         print(str(chatstate['from']).split("/")[0] + " esta escribiendo...")
 
+    # Funcion de notificaciones de usuarios que han dejado de escribir en el chat
 
     def status_paused(self, chatstate):
         print(str(chatstate['from']).split("/")[0] + " ha dejado de escribir.")
 
+    # Funcion de notificaciones de usuarios que han dejado el chat
 
     def status_gone(self, chatstate):
         print(str(chatstate['from']).split("/")[0] + " se ha ido a hacer algo mas.")
