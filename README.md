@@ -4,6 +4,8 @@ Project 1 - Client chat with XMPP for the CC3067 Networks course
 
 ## 📹 Video
 
+[Demo](https://youtu.be/KFidgiyUHD4)
+
 ## 🛠 Installation requirements
 
 > Python 3.7.3
