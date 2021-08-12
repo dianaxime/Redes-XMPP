@@ -17,6 +17,11 @@ class Client(slixmpp.ClientXMPP):
         self.stat = status
         self.add_event_handler("session_start", self.start)
         self.add_event_handler("message", self.message)
+        self.add_event_handler("chatstate_active", self.status_active)
+        self.add_event_handler("chatstate_inactive", self.status_inactive)
+        self.add_event_handler("chatstate_composing", self.status_composing)
+        self.add_event_handler("chatstate_paused", self.status_paused)
+        self.add_event_handler("chatstate_gone", self.status_gone)
 
     async def start(self, event):
         self.send_presence(self.show, self.stat)
@@ -47,6 +52,24 @@ class Client(slixmpp.ClientXMPP):
             mfrom=self.boundjid.bare,
             mtype='chat'
         )
-
         msg['chat_state'] = status
         msg.send()
+
+    def status_active(self, chatstate):
+        print(str(chatstate['from']).split("/")[0] + " esta activo.")
+
+
+    def status_inactive(self, chatstate):
+        print(str(chatstate['from']).split("/")[0] + " esta inactivo.")
+
+
+    def status_composing(self, chatstate):
+        print(str(chatstate['from']).split("/")[0] + " esta escribiendo...")
+
+
+    def status_paused(self, chatstate):
+        print(str(chatstate['from']).split("/")[0] + " ha dejado de escribir.")
+
+
+    def status_gone(self, chatstate):
+        print(str(chatstate['from']).split("/")[0] + " se ha ido a hacer algo mas.")
