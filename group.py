@@ -37,6 +37,7 @@ class ChatGroup(slixmpp.ClientXMPP):
             print(str(msg['from']).split('/')[1] + " >> " + msg['body'])
             message = input("Escribe <<volver>> si deseas regresar al menu \n Mensaje... ")
             if message == "volver":
+                self.plugin['xep_0045'].leave_muc(self.room, self.nick)
                 self.disconnect()
             else:
                 self.send_message(mto=msg['from'].bare,

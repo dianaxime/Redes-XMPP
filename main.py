@@ -12,6 +12,7 @@ from mensaje import Client
 from registro import registro, Eliminar
 from roster import Rosters, AddRoster
 from group import ChatGroup
+from file import File
 
 if __name__ == '__main__':
     parser = ArgumentParser(description=Client.__doc__)
@@ -75,6 +76,16 @@ if __name__ == '__main__':
     if opcion == "2" or opcion.lower() == "y":
         corriendo = True
         while corriendo:
+            if (opcion != "8" and opcion != "9"):
+                xmpp = File(args.jid, args.password, posible_status[args.show], args.status)
+                xmpp.register_plugin('xep_0030') # Service Discovery
+                xmpp.register_plugin('xep_0199') # XMPP Ping
+                xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
+                xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.register_plugin('xep_0085') # Chat State Notifications
+                xmpp.connect()
+                xmpp.process(timeout=25)
+                xmpp.disconnect()
             print("""
             *************************************************
                             ALUMCHAT v.20.21                
@@ -83,14 +94,12 @@ if __name__ == '__main__':
             1. Mensaje de presencia
             2. Mensajeria de grupo
             3. Modificar mi estado
-            4. Notificaciones
-            5. Mis contactos
-            6. Añadir contacto
-            7. Mostrar perfil de un contacto
-            8. Buscar todos los usuarios
-            9. Envio/recepcion de archivos
-            10. Salir
-            11. Borrar mi cuenta // CUIDADO //
+            4. Mis contactos
+            5. Añadir contacto
+            6. Mostrar perfil de un contacto
+            7. Envio/recepcion de archivos
+            8. Salir
+            9. Borrar mi cuenta // CUIDADO //
             *************************************************
             """)
             opcion = input("Ingresa el ## de accion que deseas realizar: ") 
@@ -147,8 +156,6 @@ if __name__ == '__main__':
                 xmpp.connect()
                 xmpp.process(forever=False)
             if(opcion == "4"):
-                pass
-            if(opcion == "5"):
                 xmpp = Rosters(args.jid, args.password, posible_status[args.show], args.status)
                 xmpp.register_plugin('xep_0030') # Service Discovery
                 xmpp.register_plugin('xep_0199') # XMPP Ping
@@ -157,7 +164,7 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
-            if(opcion == "6"):
+            if(opcion == "5"):
                 contact = input("¿Quien quieres que sea tu amig@? ") 
                 xmpp = AddRoster(args.jid, args.password, posible_status[args.show], args.status, contact)
                 xmpp.register_plugin('xep_0030') # Service Discovery
@@ -167,7 +174,7 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
-            if(opcion == "7"):
+            if(opcion == "6"):
                 contact = input("¿A quien quieres stalkear hoy? ") 
                 xmpp = Rosters(args.jid, args.password, posible_status[args.show], args.status, contact)
                 xmpp.register_plugin('xep_0030') # Service Discovery
@@ -177,16 +184,25 @@ if __name__ == '__main__':
                 xmpp.register_plugin('xep_0085') # Chat State Notifications
                 xmpp.connect()
                 xmpp.process(forever=False)
-            if (opcion == "8"):
-                pass
-            if(opcion == "9"):
-                pass
-            if(opcion == "10"):
+            if (opcion == "7"):
+                recipient = input("¿A quien le quieres escribir hoy? ") 
+                xmpp = File(args.jid, args.password, posible_status[args.show], args.status, True, recipient)
+                xmpp.register_plugin('xep_0030') # Service Discovery
+                xmpp.register_plugin('xep_0199') # XMPP Ping
+                xmpp.register_plugin('xep_0045') # Mulit-User Chat (MUC)
+                xmpp.register_plugin('xep_0096') # Jabber Search
+                xmpp.register_plugin('xep_0085') # Chat State Notifications
+                xmpp.connect()
+                xmpp.process(forever=False)
+            if(opcion == "8"):
                 corriendo = False
                 print('\n ¡Hasta la proxima! \n')
-            if(opcion == "11"):
+            if(opcion == "9"):
                 xmpp = Eliminar(args.jid, args.password, posible_status[args.show], args.status)
                 xmpp.connect()
                 xmpp.process(forever=False)
                 xmpp = None
                 corriendo = False
+                print("Tu cuenta ha sido eliminada exitosamente")
+
+            
