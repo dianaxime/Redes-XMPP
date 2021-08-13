@@ -4,7 +4,7 @@ Project 1 - Client chat with XMPP for the CC3067 Networks course
 
 ## 📹 Video
 
-[Demo](https://youtu.be/KFidgiyUHD4)
+[Demo](https://youtu.be/SxQQ2nm3Zik)
 
 ## 🛠 Installation requirements
 
